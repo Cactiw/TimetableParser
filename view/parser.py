@@ -1,5 +1,7 @@
 #!/bin/python
 
+from model.exceptions.EmptyPairException import EmptyPairException
+
 from functools import reduce
 
 import xlrd
@@ -53,7 +55,10 @@ def generate_pretty_group(l: list):
     for day_of_week, day_info in enumerate(l):
         day_name, timetable = day_info[0], day_info[1:]
         for pair_data in timetable:
-            res.append({"dayOfWeek": day_of_week, **parse_pair(pair_data)})
+            try:
+                res.append({"dayOfWeek": day_of_week, **parse_pair(pair_data)})
+            except EmptyPairException:
+                pass
     return res
 
 
@@ -62,7 +67,7 @@ def parse_pair(pair_data: list) -> dict:
     pair_auditorium = None
 
     if not pair_subject and not pair_teacher:
-        return {}
+        raise EmptyPairException()
 
     # Поиск скорректированного времени в расписании
     corrected_time = re.match("(\\d+\\.\\d+ \\- \\d+\\.\\d+) (.+)", pair_subject)
