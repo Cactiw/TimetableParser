@@ -12,7 +12,7 @@ def get_book_by_path(path):
 
 
 def get_book_by_file(file):
-    return xlrd.open_workbook(file_contents=file)
+    return xlrd.open_workbook(file_contents=file, on_demand=False)
 
 
 def get_sheet(book, num):
