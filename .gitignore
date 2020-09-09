@@ -1,3 +1,6 @@
 .~lock.test.xls#
 .idea
 *pychache*/
+*.pyc
+*~
+*.swp
